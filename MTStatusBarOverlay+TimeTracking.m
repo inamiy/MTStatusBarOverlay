@@ -25,7 +25,7 @@ const char MTTrackingTimeDictionaryKey;
 - (void)startTimeTrackingWithName:(NSString*)name
 {
     if (![self.trackingTimeDictionary objectForKey:name]) {
-        [self postMessage:[NSString stringWithFormat:@"%@...",name] animated:NO];
+        [self postMessage:[NSString stringWithFormat:@"%@...",name] animated:YES];
         
         CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
         [self.trackingTimeDictionary setObject:@(startTime) forKey:name];
@@ -40,7 +40,7 @@ const char MTTrackingTimeDictionaryKey;
     if ([self.trackingTimeDictionary objectForKey:name]) {
         [self.trackingTimeDictionary removeObjectForKey:name];
         
-        [self postImmediateFinishMessage:[NSString stringWithFormat:@"%@: %f",name,elapsedTime] duration:2 animated:NO];
+        [self postFinishMessage:[NSString stringWithFormat:@"%@: %f",name,elapsedTime] duration:2 animated:YES];
     }
 }
 
