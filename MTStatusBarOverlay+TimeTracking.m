@@ -7,6 +7,7 @@
 //
 
 #import "MTStatusBarOverlay+TimeTracking.h"
+#import <objc/runtime.h>
 
 const char MTTrackingTimeDictionaryKey;
 
@@ -32,7 +33,7 @@ const char MTTrackingTimeDictionaryKey;
     }
 }
 
-- (void)stopTimeTrackingWithName:(NSString*)name
+- (void)stopTimeTrackingWithName:(NSString*)name duration:(NSTimeInterval)duration
 {
     CFAbsoluteTime startTime = [[self.trackingTimeDictionary objectForKey:name] doubleValue];
     CFAbsoluteTime elapsedTime = CFAbsoluteTimeGetCurrent() - startTime;
@@ -40,7 +41,7 @@ const char MTTrackingTimeDictionaryKey;
     if ([self.trackingTimeDictionary objectForKey:name]) {
         [self.trackingTimeDictionary removeObjectForKey:name];
         
-        [self postFinishMessage:[NSString stringWithFormat:@"%@: %f",name,elapsedTime] duration:2 animated:YES];
+        [self postFinishMessage:[NSString stringWithFormat:@"%@: %f",name,elapsedTime] duration:duration animated:YES];
     }
 }
 
@@ -53,10 +54,10 @@ const char MTTrackingTimeDictionaryKey;
     [overlay startTimeTrackingWithName:name];
 }
 
-+ (void)stopTimeTrackingWithName:(NSString*)name
++ (void)stopTimeTrackingWithName:(NSString*)name duration:(NSTimeInterval)duration
 {
     MTStatusBarOverlay* overlay = [MTStatusBarOverlay sharedInstance];
-    [overlay stopTimeTrackingWithName:name];
+    [overlay stopTimeTrackingWithName:name duration:duration];
 }
 
 @end
