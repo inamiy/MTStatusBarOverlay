@@ -1086,10 +1086,10 @@ kDetailViewWidth, kHistoryTableRowHeight*kMaxHistoryTableRowCount + kStatusBarHe
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellID];
         
 		cell.textLabel.font = [UIFont boldSystemFontOfSize:10];
-		cell.textLabel.textColor = [UIApplication sharedApplication].statusBarStyle == UIStatusBarStyleDefault ? kLightThemeHistoryTextColor : kDarkThemeHistoryTextColor;
+		cell.textLabel.textColor = [UIApplication sharedApplication].statusBarStyle == (!self.prefersDarkTheme && UIStatusBarStyleDefault) ? kLightThemeHistoryTextColor : kDarkThemeHistoryTextColor;
         
 		cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:12];
-		cell.detailTextLabel.textColor = [UIApplication sharedApplication].statusBarStyle == UIStatusBarStyleDefault ? kLightThemeHistoryTextColor : kDarkThemeHistoryTextColor;
+		cell.detailTextLabel.textColor = [UIApplication sharedApplication].statusBarStyle == (!self.prefersDarkTheme && UIStatusBarStyleDefault) ? kLightThemeHistoryTextColor : kDarkThemeHistoryTextColor;
 	}
     
 	// step 3: set up cell value
@@ -1179,7 +1179,7 @@ kDetailViewWidth, kHistoryTableRowHeight*kMaxHistoryTableRowCount + kStatusBarHe
 - (void)setStatusBarBackgroundForStyle:(UIStatusBarStyle)style {
 	// gray status bar?
 	// on iPad the Default Status Bar Style is black too
-	if (style == UIStatusBarStyleDefault && !IsIPad && !IsIPhoneEmulationMode) {
+	if (!self.prefersDarkTheme && style == UIStatusBarStyleDefault && !IsIPad && !IsIPhoneEmulationMode) {
 		// choose image depending on size
 		if (self.shrinked) {
 			self.statusBarBackgroundImageView.image = [self.defaultStatusBarImageShrinked stretchableImageWithLeftCapWidth:2.0f topCapHeight:0.0f];
@@ -1198,7 +1198,7 @@ kDetailViewWidth, kHistoryTableRowHeight*kMaxHistoryTableRowCount + kStatusBarHe
 - (void)setColorSchemeForStatusBarStyle:(UIStatusBarStyle)style messageType:(MTMessageType)messageType {
 	// gray status bar?
 	// on iPad the Default Status Bar Style is black too
-	if (style == UIStatusBarStyleDefault && !IsIPad && !IsIPhoneEmulationMode) {
+	if (!self.prefersDarkTheme && style == UIStatusBarStyleDefault && !IsIPad && !IsIPhoneEmulationMode) {
 		// set color of labels depending on messageType
         switch(messageType) {
             case MTMessageTypeFinish:
